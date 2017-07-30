@@ -1,15 +1,9 @@
 ﻿#include "stdafx.h"
-#include "afx.h"
-
 #include "Joystick.h"
 #include <hidsdi.h>
-#include "Resource.h"
-#include "afxdialogex.h"
+
 
 #define SAFE_FREE(p)	{ if(p) { HeapFree(hHeap, 0, p); (p) = NULL; } }
-
-// pick a proper definition of GetDlgItem
-//CWnd* GetDlgItem(int nID);
 
 Joystick::Joystick()
 {
@@ -22,8 +16,6 @@ Joystick::Joystick(HWND hWnd, CStatic * pWnd)
 	this->pButtonCaps = NULL;
 	this->pValueCaps = NULL;
 	this->hHeap = NULL;
-	this->m_scaleX = 1;
-	this->m_scaleY = 1;
 	this->m_x = 0;
 	this->m_y = 0;
 	this->m_z = 0;
@@ -81,6 +73,8 @@ int Joystick::GetAndParseRawInput(UINT nInputcode, HRAWINPUT lParam)
 	this->ParseRawInput(this->pRawInput);
 
 	HeapFree(this->hHeap, 0, this->pRawInput);
+
+	return 0;
 }
 
 /////////////////////////////////////////////
@@ -179,7 +173,7 @@ int Joystick::ParseRawInput(PRAWINPUT pRawInput)
 			this->m_h = value;
 			break;
 		}
-	}//for (i = 0; i < Caps.NumberInputValueCaps; i++)
+	}
 
 	return this->SaveFree(TRUE);
 }

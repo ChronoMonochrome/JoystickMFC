@@ -1,13 +1,9 @@
-
 // JoystickMFCDlg.h : файл заголовка
 //
 
 #pragma once
-#include "Resource.h"
-
 #include "Joystick.h"
 
-#define MAX_BUTTONS		128
 // диалоговое окно CJoystickMFCDlg
 class CJoystickMFCDlg : public CDialogEx
 {

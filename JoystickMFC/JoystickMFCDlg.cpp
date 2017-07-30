@@ -18,7 +18,6 @@
 #include "Joystick.h"
 #include <hidsdi.h>
 #include "Resource.h"
-#include "afxdialogex.h"
 
 
 // CAboutDlg dialog used for App About
@@ -55,9 +54,6 @@ END_MESSAGE_MAP()
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-
-#define SAFE_FREE(p)	{ if(p) { HeapFree(hHeap, 0, p); (p) = NULL; } }
-
 
 int idBtn[] =
 {
@@ -160,8 +156,7 @@ BOOL CJoystickMFCDlg::OnInitDialog()
 	CStatic * pWnd = (CStatic *)GetDlgItem(IDC_STATIC_XY);
 	try {
 		this->joystick = Joystick(m_hWnd, pWnd);
-	}
-	catch (CString e) {
+	} catch (CString e) {
 		MessageBox(e, "Error", MB_OK | MB_ICONERROR);
 	}
 
@@ -208,7 +203,8 @@ HCURSOR CJoystickMFCDlg::OnQueryDragIcon()
 
 void CJoystickMFCDlg::OnRawInput(UINT nInputcode, HRAWINPUT lParam)
 {
-	this->joystick.GetAndParseRawInput(nInputcode, lParam);
+	if (this->joystick.GetAndParseRawInput(nInputcode, lParam) < 0)
+		return;
 
 	for (int i = 0; i < 12; i++)  //Update All the Numerated Check Boxes
 	{
